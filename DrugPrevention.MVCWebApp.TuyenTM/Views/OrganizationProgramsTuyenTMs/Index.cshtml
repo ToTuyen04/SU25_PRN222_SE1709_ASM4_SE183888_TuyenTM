@@ -1,0 +1,89 @@
+﻿@model IEnumerable<DrugPrevention.Repositories.TuyenTM.Models.OrganizationProgramsTuyenTM>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.JoinedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContributionDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsSponsor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsOrganizer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProgramRole)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FundingAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Feedback)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastUpdated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Organization)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProgramToanNS)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.JoinedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContributionDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsSponsor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsOrganizer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProgramRole)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FundingAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Feedback)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastUpdated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Organization.OrganizationName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProgramToanNS.ProgramName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.OrganizationProgramTuyenTMID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.OrganizationProgramTuyenTMID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.OrganizationProgramTuyenTMID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

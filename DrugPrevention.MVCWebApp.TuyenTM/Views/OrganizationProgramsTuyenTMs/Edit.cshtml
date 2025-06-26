@@ -1,0 +1,79 @@
+﻿@model DrugPrevention.Repositories.TuyenTM.Models.OrganizationProgramsTuyenTM
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>OrganizationProgramsTuyenTM</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="OrganizationProgramTuyenTMID" />
+            <div class="form-group">
+                <label asp-for="OrganizationID" class="control-label"></label>
+                <select asp-for="OrganizationID" class="form-control" asp-items="ViewBag.OrganizationID"></select>
+                <span asp-validation-for="OrganizationID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProgramToanNSID" class="control-label"></label>
+                <select asp-for="ProgramToanNSID" class="form-control" asp-items="ViewBag.ProgramToanNSID"></select>
+                <span asp-validation-for="ProgramToanNSID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JoinedDate" class="control-label"></label>
+                <input asp-for="JoinedDate" class="form-control" />
+                <span asp-validation-for="JoinedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContributionDescription" class="control-label"></label>
+                <input asp-for="ContributionDescription" class="form-control" />
+                <span asp-validation-for="ContributionDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsSponsor" class="control-label"></label>
+                <input asp-for="IsSponsor" class="form-control" />
+                <span asp-validation-for="IsSponsor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsOrganizer" class="control-label"></label>
+                <input asp-for="IsOrganizer" class="form-control" />
+                <span asp-validation-for="IsOrganizer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProgramRole" class="control-label"></label>
+                <input asp-for="ProgramRole" class="form-control" />
+                <span asp-validation-for="ProgramRole" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FundingAmount" class="control-label"></label>
+                <input asp-for="FundingAmount" class="form-control" />
+                <span asp-validation-for="FundingAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Feedback" class="control-label"></label>
+                <input asp-for="Feedback" class="form-control" />
+                <span asp-validation-for="Feedback" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastUpdated" class="control-label"></label>
+                <input asp-for="LastUpdated" class="form-control" />
+                <span asp-validation-for="LastUpdated" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
