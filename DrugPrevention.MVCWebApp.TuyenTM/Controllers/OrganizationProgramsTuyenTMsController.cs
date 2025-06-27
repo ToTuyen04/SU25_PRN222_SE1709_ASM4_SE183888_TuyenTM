@@ -13,10 +13,12 @@ namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
 {
     public class OrganizationProgramsTuyenTMsController : Controller
     {
-        private readonly SU25_PRN222_SE1709_G2_DrugPreventionSystemContext _context;
         private readonly IServiceProviders _serviceProviders;
 
-        public OrganizationProgramsTuyenTMsController(ServiceProviders serviceProvider) => _serviceProviders = serviceProvider;
+        public OrganizationProgramsTuyenTMsController(IServiceProviders serviceProviders)
+        {
+            _serviceProviders = serviceProviders;
+        }
 
         // GET: OrganizationProgramsTuyenTMs
         public async Task<IActionResult> Index()
@@ -24,7 +26,7 @@ namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
             //var sU25_PRN222_SE1709_G2_DrugPreventionSystemContext = _context.OrganizationProgramsTuyenTMs.Include(o => o.Organization).Include(o => o.ProgramToanNS);
             //return View(await sU25_PRN222_SE1709_G2_DrugPreventionSystemContext.ToListAsync());
             var organizationPrograms = await _serviceProviders.OrganizationProgramsTuyenTMService.GetAllAsync();
-            return (organizationPrograms != null) ? Ok(organizationPrograms) : NotFound(); 
+            return View(organizationPrograms);
         }
 
         // GET: OrganizationProgramsTuyenTMs/Details/5
@@ -49,10 +51,12 @@ namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
         }
 
         // GET: OrganizationProgramsTuyenTMs/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["OrganizationID"] = new SelectList(_context.OrganizationsTuyenTMs, "OrganizationTuyenTMID", "OrganizationName");
-            ViewData["ProgramToanNSID"] = new SelectList(_context.CommunityProgramsToanNs, "ProgramToanNSID", "ProgramName");
+            var organizations = await _serviceProviders.OrganizationsTuyenTMService.GetAllAsync();
+            var programs = await _serviceProviders.CommunityProgramToanNSService.GetAllAsync();
+            ViewData["OrganizationID"] = new SelectList(organizations, "OrganizationTuyenTMID", "OrganizationName");
+            ViewData["ProgramToanNSID"] = new SelectList(programs, "ProgramToanNSID", "ProgramName");
             return View();
         }
 
@@ -61,7 +65,7 @@ namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrganizationProgramTuyenTMID,OrganizationID,ProgramToanNSID,JoinedDate,ContributionDescription,IsSponsor,IsOrganizer,ProgramRole,FundingAmount,Feedback,LastUpdated")] OrganizationProgramsTuyenTM organizationProgramsTuyenTM)
+        public async Task<IActionResult> Create(OrganizationProgramsTuyenTM organizationProgramsTuyenTM)
         {
             if (ModelState.IsValid)
             {
@@ -70,8 +74,10 @@ namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
                 await _serviceProviders.OrganizationProgramsTuyenTMService.AddAsync(organizationProgramsTuyenTM);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OrganizationID"] = new SelectList(_context.OrganizationsTuyenTMs, "OrganizationTuyenTMID", "OrganizationName", organizationProgramsTuyenTM.OrganizationID);
-            ViewData["ProgramToanNSID"] = new SelectList(_context.CommunityProgramsToanNs, "ProgramToanNSID", "ProgramName", organizationProgramsTuyenTM.ProgramToanNSID);
+            var organizations = await _serviceProviders.OrganizationsTuyenTMService.GetAllAsync();
+            var programs = await _serviceProviders.CommunityProgramToanNSService.GetAllAsync();
+            ViewData["OrganizationID"] = new SelectList(organizations, "OrganizationTuyenTMID", "OrganizationName", organizationProgramsTuyenTM.OrganizationID);
+            ViewData["ProgramToanNSID"] = new SelectList(programs, "ProgramToanNSID", "ProgramName", organizationProgramsTuyenTM.ProgramToanNSID);
             return View(organizationProgramsTuyenTM);
         }
 
@@ -89,8 +95,10 @@ namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
             {
                 return NotFound();
             }
-            ViewData["OrganizationID"] = new SelectList(_context.OrganizationsTuyenTMs, "OrganizationTuyenTMID", "OrganizationName", organizationProgramsTuyenTM.OrganizationID);
-            ViewData["ProgramToanNSID"] = new SelectList(_context.CommunityProgramsToanNs, "ProgramToanNSID", "ProgramName", organizationProgramsTuyenTM.ProgramToanNSID);
+            var organizations = await _serviceProviders.OrganizationsTuyenTMService.GetAllAsync();
+            var programs = await _serviceProviders.CommunityProgramToanNSService.GetAllAsync();
+            ViewData["OrganizationID"] = new SelectList(organizations, "OrganizationTuyenTMID", "OrganizationName", organizationProgramsTuyenTM.OrganizationID);
+            ViewData["ProgramToanNSID"] = new SelectList(programs, "ProgramToanNSID", "ProgramName", organizationProgramsTuyenTM.ProgramToanNSID);
             return View(organizationProgramsTuyenTM);
         }
 
@@ -99,7 +107,7 @@ namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrganizationProgramTuyenTMID,OrganizationID,ProgramToanNSID,JoinedDate,ContributionDescription,IsSponsor,IsOrganizer,ProgramRole,FundingAmount,Feedback,LastUpdated")] OrganizationProgramsTuyenTM organizationProgramsTuyenTM)
+        public async Task<IActionResult> Edit(int id, OrganizationProgramsTuyenTM organizationProgramsTuyenTM)
         {
             if (id != organizationProgramsTuyenTM.OrganizationProgramTuyenTMID)
             {
@@ -127,8 +135,10 @@ namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OrganizationID"] = new SelectList(_context.OrganizationsTuyenTMs, "OrganizationTuyenTMID", "OrganizationName", organizationProgramsTuyenTM.OrganizationID);
-            ViewData["ProgramToanNSID"] = new SelectList(_context.CommunityProgramsToanNs, "ProgramToanNSID", "ProgramName", organizationProgramsTuyenTM.ProgramToanNSID);
+            var organizations = await _serviceProviders.OrganizationsTuyenTMService.GetAllAsync();
+            var programs = await _serviceProviders.CommunityProgramToanNSService.GetAllAsync();
+            ViewData["OrganizationID"] = new SelectList(organizations, "OrganizationTuyenTMID", "OrganizationName", organizationProgramsTuyenTM.OrganizationID);
+            ViewData["ProgramToanNSID"] = new SelectList(programs, "ProgramToanNSID", "ProgramName", organizationProgramsTuyenTM.ProgramToanNSID);
             return View(organizationProgramsTuyenTM);
         }
 

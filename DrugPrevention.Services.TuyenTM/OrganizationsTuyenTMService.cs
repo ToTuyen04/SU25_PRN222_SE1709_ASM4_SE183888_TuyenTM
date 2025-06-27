@@ -46,8 +46,8 @@ namespace DrugPrevention.Services.TuyenTM
         }
         public bool Exists(int id)
         {
-            var program = _unitOfWork.OrganizationProgramsTuyenTMRepository.GetById(id);
-            return program != null && program.OrganizationProgramTuyenTMID != 0;
+            var organization = _unitOfWork.OrganizationsTuyenTMRepository.GetById(id);
+            return organization != null && organization.OrganizationTuyenTMID != 0;
         }
     }
 }

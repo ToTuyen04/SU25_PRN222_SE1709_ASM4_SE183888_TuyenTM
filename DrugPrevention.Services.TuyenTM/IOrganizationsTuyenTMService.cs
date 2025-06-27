@@ -15,5 +15,6 @@ namespace DrugPrevention.Services.TuyenTM
         Task<int> AddAsync(OrganizationsTuyenTM organization);
         Task<int> UpdateAsync(OrganizationsTuyenTM organization);
         Task<bool> DeleteAsync(int id);
+        bool Exists(int id);
     }
 }

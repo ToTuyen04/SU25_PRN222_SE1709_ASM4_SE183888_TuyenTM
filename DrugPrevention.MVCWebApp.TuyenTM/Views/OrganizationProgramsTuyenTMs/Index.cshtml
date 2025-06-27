@@ -37,10 +37,10 @@
                 @Html.DisplayNameFor(model => model.LastUpdated)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Organization)
+                @Html.DisplayNameFor(model => model.OrganizationID)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProgramToanNS)
+                @Html.DisplayNameFor(model => model.ProgramToanNSID)
             </th>
             <th></th>
         </tr>
@@ -73,10 +73,10 @@
                 @Html.DisplayFor(modelItem => item.LastUpdated)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Organization.OrganizationName)
+                @Html.DisplayFor(modelItem => item.OrganizationID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProgramToanNS.ProgramName)
+                @Html.DisplayFor(modelItem => item.ProgramToanNSID)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.OrganizationProgramTuyenTMID">Edit</a> |

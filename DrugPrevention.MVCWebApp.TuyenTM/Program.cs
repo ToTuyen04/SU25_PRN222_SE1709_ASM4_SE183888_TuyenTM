@@ -1,11 +1,19 @@
 using DrugPrevention.Repositories.TuyenTM.DBContext;
 using DrugPrevention.Services.TuyenTM;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-//builder.Services.AddScoped<SU25_PRN222_SE1709_G2_DrugPreventionSystemContext>();
+    //.AddJsonOptions(options =>
+    //{
+    //    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    //    options.JsonSerializerOptions.WriteIndented = true;
+    //});
+
+//builder.Services.AddDbContext<SU25_PRN222_SE1709_G2_DrugPreventionSystemContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IServiceProviders, ServiceProviders>();
 
 var app = builder.Build();

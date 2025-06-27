@@ -17,10 +17,7 @@ namespace DrugPrevention.Repositories.TuyenTM
 
         public async Task<List<OrganizationProgramsTuyenTM>> GetAllAsync()
         {
-            var programs = await _context.OrganizationProgramsTuyenTMs
-                .Include(o => o.Organization)
-                .Include(o => o.ProgramToanNS)
-                .ToListAsync();
+            var programs = await _context.OrganizationProgramsTuyenTMs.ToListAsync();
             return programs ?? new List<OrganizationProgramsTuyenTM>();
         }
         public async Task<OrganizationProgramsTuyenTM> GetByIdAsync(int id)
