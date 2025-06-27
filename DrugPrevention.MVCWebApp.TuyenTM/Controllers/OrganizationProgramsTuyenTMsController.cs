@@ -26,6 +26,18 @@ namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
             //var sU25_PRN222_SE1709_G2_DrugPreventionSystemContext = _context.OrganizationProgramsTuyenTMs.Include(o => o.Organization).Include(o => o.ProgramToanNS);
             //return View(await sU25_PRN222_SE1709_G2_DrugPreventionSystemContext.ToListAsync());
             var organizationPrograms = await _serviceProviders.OrganizationProgramsTuyenTMService.GetAllAsync();
+
+            // Load navigation properties manually
+            var organizations = await _serviceProviders.OrganizationsTuyenTMService.GetAllAsync();
+            var programs = await _serviceProviders.CommunityProgramToanNSService.GetAllAsync();
+
+            // Set navigation properties
+            foreach (var item in organizationPrograms)
+            {
+                item.Organization = organizations.FirstOrDefault(o => o.OrganizationTuyenTMID == item.OrganizationID);
+                item.ProgramToanNS = programs.FirstOrDefault(p => p.ProgramToanNSID == item.ProgramToanNSID);
+            }
+
             return View(organizationPrograms);
         }
 
@@ -47,6 +59,13 @@ namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
                 return NotFound();
             }
 
+            // Load navigation properties manually
+            var organizations = await _serviceProviders.OrganizationsTuyenTMService.GetAllAsync();
+            var programs = await _serviceProviders.CommunityProgramToanNSService.GetAllAsync();
+
+            organizationProgramsTuyenTM.Organization = organizations.FirstOrDefault(o => o.OrganizationTuyenTMID == organizationProgramsTuyenTM.OrganizationID);
+            organizationProgramsTuyenTM.ProgramToanNS = programs.FirstOrDefault(p => p.ProgramToanNSID == organizationProgramsTuyenTM.ProgramToanNSID);
+
             return View(organizationProgramsTuyenTM);
         }
 
@@ -67,6 +86,9 @@ namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(OrganizationProgramsTuyenTM organizationProgramsTuyenTM)
         {
+            // Handle dropdown values - empty string becomes null for nullable boolean
+            // Values will be: "true", "false", or "" (empty for null)
+
             if (ModelState.IsValid)
             {
                 //_context.Add(organizationProgramsTuyenTM);
@@ -114,6 +136,9 @@ namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
                 return NotFound();
             }
 
+            // Handle dropdown values - empty string becomes null for nullable boolean
+            // Values will be: "true", "false", or "" (empty for null)
+
             if (ModelState.IsValid)
             {
                 try
@@ -159,6 +184,13 @@ namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
             {
                 return NotFound();
             }
+
+            // Load navigation properties manually
+            var organizations = await _serviceProviders.OrganizationsTuyenTMService.GetAllAsync();
+            var programs = await _serviceProviders.CommunityProgramToanNSService.GetAllAsync();
+
+            organizationProgramsTuyenTM.Organization = organizations.FirstOrDefault(o => o.OrganizationTuyenTMID == organizationProgramsTuyenTM.OrganizationID);
+            organizationProgramsTuyenTM.ProgramToanNS = programs.FirstOrDefault(p => p.ProgramToanNSID == organizationProgramsTuyenTM.ProgramToanNSID);
 
             return View(organizationProgramsTuyenTM);
         }

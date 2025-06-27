@@ -33,13 +33,23 @@
                 <input asp-for="ContributionDescription" class="form-control" />
                 <span asp-validation-for="ContributionDescription" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <input class="form-check-input" asp-for="IsSponsor" />
-                <label class="form-check-label" asp-for="IsSponsor"></label>
+            <div class="form-group">
+                <label asp-for="IsSponsor" class="control-label">Is Sponsor</label>
+                <select asp-for="IsSponsor" class="form-control">
+                    <option value="">-- Select --</option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+                <span asp-validation-for="IsSponsor" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <input class="form-check-input" asp-for="IsOrganizer" />
-                <label class="form-check-label" asp-for="IsOrganizer"></label>
+            <div class="form-group">
+                <label asp-for="IsOrganizer" class="control-label">Is Organizer</label>
+                <select asp-for="IsOrganizer" class="form-control">
+                    <option value="">-- Select --</option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+                <span asp-validation-for="IsOrganizer" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ProgramRole" class="control-label"></label>

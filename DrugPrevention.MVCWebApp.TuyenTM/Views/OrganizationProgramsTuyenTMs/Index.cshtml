@@ -37,10 +37,10 @@
                 @Html.DisplayNameFor(model => model.LastUpdated)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OrganizationID)
+                Organization Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProgramToanNSID)
+                Program Name
             </th>
             <th></th>
         </tr>
@@ -55,10 +55,10 @@
                 @Html.DisplayFor(modelItem => item.ContributionDescription)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IsSponsor)
+                @(item.IsSponsor == true ? "Yes" : item.IsSponsor == false ? "No" : "N/A")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IsOrganizer)
+                @(item.IsOrganizer == true ? "Yes" : item.IsOrganizer == false ? "No" : "N/A")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ProgramRole)
@@ -73,10 +73,10 @@
                 @Html.DisplayFor(modelItem => item.LastUpdated)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.OrganizationID)
+                @Html.DisplayFor(modelItem => item.Organization.OrganizationName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProgramToanNSID)
+                @Html.DisplayFor(modelItem => item.ProgramToanNS.ProgramName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.OrganizationProgramTuyenTMID">Edit</a> |

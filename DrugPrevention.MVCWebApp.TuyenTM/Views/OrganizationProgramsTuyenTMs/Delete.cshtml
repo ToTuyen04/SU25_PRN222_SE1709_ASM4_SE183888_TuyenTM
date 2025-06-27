@@ -27,13 +27,13 @@
             @Html.DisplayNameFor(model => model.IsSponsor)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsSponsor)
+            @(Model.IsSponsor == true ? "Yes" : Model.IsSponsor == false ? "No" : "N/A")
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.IsOrganizer)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsOrganizer)
+            @(Model.IsOrganizer == true ? "Yes" : Model.IsOrganizer == false ? "No" : "N/A")
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ProgramRole)
@@ -60,16 +60,16 @@
             @Html.DisplayFor(model => model.LastUpdated)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.OrganizationID)
+            Organization Name
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.OrganizationID)
+            @Html.DisplayFor(model => model.Organization.OrganizationName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProgramToanNSID)
+            Program Name
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProgramToanNSID)
+            @Html.DisplayFor(model => model.ProgramToanNS.ProgramName)
         </dd>
     </dl>
     
