@@ -58,7 +58,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="FundingAmount" class="control-label"></label>
-                <input asp-for="FundingAmount" class="form-control" />
+                <input asp-for="FundingAmount" class="form-control" type="number" step="0.01" min="0" placeholder="0.00" />
                 <span asp-validation-for="FundingAmount" class="text-danger"></span>
             </div>
             <div class="form-group">
