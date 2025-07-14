@@ -1,0 +1,54 @@
+@{
+    ViewData["Title"] = "Access Denied";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h3 class="text-center mb-0">
+                    <i class="fas fa-ban"></i>
+                    @ViewData["Title"]
+                </h3>
+            </div>
+            <div class="card-body text-center">
+                <div class="mb-4">
+                    <i class="fas fa-exclamation-triangle text-warning" style="font-size: 4rem;"></i>
+                </div>
+                
+                <h4 class="text-danger mb-3">Access Denied</h4>
+                
+                <p class="lead mb-4">
+                    You do not have permission to access this resource.
+                </p>
+                
+                <p class="text-muted mb-4">
+                    If you believe this is an error, please contact your system administrator 
+                    or try logging in with an account that has the appropriate permissions.
+                </p>
+                
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    @if (User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value != "3")
+                    {
+                        <a href="@Url.Action("Index", "OrganizationProgramsTuyenTMs")" class="btn btn-primary">
+                            <i class="fas fa-list"></i>
+                            Go To List
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-primary">
+                            <i class="fas fa-home"></i>
+                            Go To Home
+                        </a>
+                    }
+                    <a href="@Url.Action("Login", "Account")" class="btn btn-outline-secondary">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Login Again
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

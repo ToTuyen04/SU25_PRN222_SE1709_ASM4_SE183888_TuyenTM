@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DrugPrevention.Repositories.TuyenTM.Models.OrganizationProgramsTuyenTM>
+﻿@model DrugPrevention.MVCWebApp.TuyenTM.Helpers.PaginatedList<DrugPrevention.Repositories.TuyenTM.Models.OrganizationProgramsTuyenTM>
 
 @{
     ViewData["Title"] = "Organization Programs";
@@ -17,6 +17,35 @@
                             <i class="fas fa-plus mr-1"></i>Create New
                         </a>
                     </div>
+                </div>
+
+                <!-- Search Form -->
+                <div class="card-body border-bottom">
+                    <form asp-action="Search" method="get" class="row g-3">
+                        <div class="col-md-3">
+                            <label for="id" class="form-label">ID</label>
+                            <input type="number" class="form-control" name="id" id="id" placeholder="Enter ID"
+                                   value="@(ViewData["id"] != null && Convert.ToInt32(ViewData["id"]) != 0 ? ViewData["id"] : "")" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="name" class="form-label">Program Name</label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Enter program name"
+                                   value="@ViewData["name"]" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="type" class="form-label">Organization Type</label>
+                            <input type="text" class="form-control" name="type" id="type" placeholder="Enter organization type"
+                                   value="@ViewData["type"]" />
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary me-2">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="fas fa-undo"></i> Reset
+                            </a>
+                        </div>
+                    </form>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -128,10 +157,14 @@
                                                class="btn btn-warning btn-sm mr-1" title="Edit">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <a asp-action="Delete" asp-route-id="@item.OrganizationProgramTuyenTMID"
-                                               class="btn btn-danger btn-sm" title="Delete">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
+                                            @* Only show Delete button if user role is not 2 *@
+                                            @* @if (User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value != "2") *@
+                                            @* { *@
+                                                <a asp-action="Delete" asp-route-id="@item.OrganizationProgramTuyenTMID"
+                                                   class="btn btn-danger btn-sm" title="Delete">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            @* } *@
                                         </td>
                                     </tr>
                                 }
@@ -148,6 +181,58 @@
                         <a asp-action="Create" class="btn btn-primary">
                             <i class="fas fa-plus mr-1"></i>Create New Program
                         </a>
+                    </div>
+                }
+
+                <!-- Pagination -->
+                @if (Model != null && Model.TotalPages > 1)
+                {
+                    <div class="card-footer">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center mb-0">
+                                <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                                    <a class="page-link" asp-action="Search"
+                                       asp-route-pageNumber="@(Model.PageIndex - 1)"
+                                       asp-route-id="@ViewData["id"]"
+                                       asp-route-name="@ViewData["name"]"
+                                       asp-route-type="@ViewData["type"]"
+                                       aria-label="Previous" tabindex="@(Model.HasPreviousPage ? "0" : "-1")">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </a>
+                                </li>
+
+                                @for (var i = 1; i <= Model.TotalPages; i++)
+                                {
+                                    <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                                        <a class="page-link" asp-action="Search"
+                                           asp-route-pageNumber="@i"
+                                           asp-route-id="@ViewData["id"]"
+                                           asp-route-name="@ViewData["name"]"
+                                           asp-route-type="@ViewData["type"]"
+                                           aria-current="@(i == Model.PageIndex ? "page" : null)">@i</a>
+                                    </li>
+                                }
+
+                                <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                                    <a class="page-link" asp-action="Search"
+                                       asp-route-pageNumber="@(Model.PageIndex + 1)"
+                                       asp-route-id="@ViewData["id"]"
+                                       asp-route-name="@ViewData["name"]"
+                                       asp-route-type="@ViewData["type"]"
+                                       aria-label="Next" tabindex="@(Model.HasNextPage ? "0" : "-1")">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+
+                        <!-- Pagination Info -->
+                        <div class="text-center mt-2">
+                            <small class="text-muted">
+                                Showing @((Model.PageIndex - 1) * 10 + 1) to @(Math.Min(Model.PageIndex * 10, Model.Count)) of @Model.Count results
+                                (Page @Model.PageIndex of @Model.TotalPages)
+                            </small>
+                        </div>
                     </div>
                 }
             </div>

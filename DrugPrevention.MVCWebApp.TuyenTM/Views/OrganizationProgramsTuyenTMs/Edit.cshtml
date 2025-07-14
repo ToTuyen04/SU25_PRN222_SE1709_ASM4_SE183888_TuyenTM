@@ -49,7 +49,7 @@
                                     <label asp-for="JoinedDate" class="form-label">
                                         <i class="fas fa-calendar me-1"></i>Joined Date
                                     </label>
-                                    <input asp-for="JoinedDate" class="form-control" type="date" />
+                                    <input asp-for="JoinedDate" class="form-control" type="date" disabled/>
                                     <span asp-validation-for="JoinedDate" class="text-danger"></span>
                                 </div>
                             </div>
@@ -127,10 +127,11 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label asp-for="LastUpdated" class="form-label">
-                                        <i class="fas fa-clock me-1"></i>Last Updated
+                                        <i class="fas fa-clock mr-1"></i>Last Updated
                                     </label>
                                     <input asp-for="LastUpdated" class="form-control" type="datetime-local" />
                                     <span asp-validation-for="LastUpdated" class="text-danger"></span>
+                                    <small class="form-text text-muted">Leave empty to auto-update to current time</small>
                                 </div>
                             </div>
                         </div>

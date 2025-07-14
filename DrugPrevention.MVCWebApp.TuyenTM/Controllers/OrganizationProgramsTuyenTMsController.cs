@@ -8,9 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using DrugPrevention.Repositories.TuyenTM.DBContext;
 using DrugPrevention.Repositories.TuyenTM.Models;
 using DrugPrevention.Services.TuyenTM;
+using Microsoft.AspNetCore.Authorization;
+using DrugPrevention.MVCWebApp.TuyenTM.Helpers;
 
 namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
 {
+    [Authorize]
     public class OrganizationProgramsTuyenTMsController : Controller
     {
         private readonly IServiceProviders _serviceProviders;
@@ -20,46 +23,39 @@ namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
             _serviceProviders = serviceProviders;
         }
 
-        // GET: OrganizationProgramsTuyenTMs
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? pageNumber)
         {
-            //var sU25_PRN222_SE1709_G2_DrugPreventionSystemContext = _context.OrganizationProgramsTuyenTMs.Include(o => o.Organization).Include(o => o.ProgramToanNS);
-            //return View(await sU25_PRN222_SE1709_G2_DrugPreventionSystemContext.ToListAsync());
-            var organizationPrograms = await _serviceProviders.OrganizationProgramsTuyenTMService.GetAllAsync();
-
-            // Load navigation properties manually
-            var organizations = await _serviceProviders.OrganizationsTuyenTMService.GetAllAsync();
-            var programs = await _serviceProviders.CommunityProgramToanNSService.GetAllAsync();
-
-            // Set navigation properties
-            foreach (var item in organizationPrograms)
+            // Check if user has role = 3, if so, deny access
+            var userRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+            if (userRole == "3")
             {
-                item.Organization = organizations.FirstOrDefault(o => o.OrganizationTuyenTMID == item.OrganizationID);
-                item.ProgramToanNS = programs.FirstOrDefault(p => p.ProgramToanNSID == item.ProgramToanNSID);
+                return RedirectToAction("Forbidden", "Account");
             }
 
-            return View(organizationPrograms);
-        }
+            var organizationPrograms = await _serviceProviders.OrganizationProgramsTuyenTMService.GetAllAsync();
 
-        // GET: OrganizationProgramsTuyenTMs/Details/5
+            int pageSize = 10;
+            return View(PaginatedList<OrganizationProgramsTuyenTM>.Create(organizationPrograms, pageNumber ?? 1, pageSize));
+        }
         public async Task<IActionResult> Details(int? id)
         {
+            // Check if user has role = 3, if so, deny access
+            var userRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+            if (userRole == "3")
+            {
+                return RedirectToAction("Forbidden", "Account");
+            }
+
             if (id == null)
             {
                 return NotFound();
             }
-
-            //var organizationProgramsTuyenTM = await _context.OrganizationProgramsTuyenTMs
-            //    .Include(o => o.Organization)
-            //    .Include(o => o.ProgramToanNS)
-            //    .FirstOrDefaultAsync(m => m.OrganizationProgramTuyenTMID == id);
             var organizationProgramsTuyenTM = await _serviceProviders.OrganizationProgramsTuyenTMService.GetByIdAsync(id.Value);
             if (organizationProgramsTuyenTM == null)
             {
                 return NotFound();
             }
 
-            // Load navigation properties manually
             var organizations = await _serviceProviders.OrganizationsTuyenTMService.GetAllAsync();
             var programs = await _serviceProviders.CommunityProgramToanNSService.GetAllAsync();
 
@@ -69,30 +65,40 @@ namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
             return View(organizationProgramsTuyenTM);
         }
 
-        // GET: OrganizationProgramsTuyenTMs/Create
         public async Task<IActionResult> Create()
         {
+            // Check if user has role = 3, if so, deny access
+            var userRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+            if (userRole == "3")
+            {
+                return RedirectToAction("Forbidden", "Account");
+            }
+
             var organizations = await _serviceProviders.OrganizationsTuyenTMService.GetAllAsync();
             var programs = await _serviceProviders.CommunityProgramToanNSService.GetAllAsync();
             ViewData["OrganizationID"] = new SelectList(organizations, "OrganizationTuyenTMID", "OrganizationName");
             ViewData["ProgramToanNSID"] = new SelectList(programs, "ProgramToanNSID", "ProgramName");
             return View();
         }
-
-        // POST: OrganizationProgramsTuyenTMs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(OrganizationProgramsTuyenTM organizationProgramsTuyenTM)
         {
-            // Handle dropdown values - empty string becomes null for nullable boolean
-            // Values will be: "true", "false", or "" (empty for null)
+            // Check if user has role = 3, if so, deny access
+            var userRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+            if (userRole == "3")
+            {
+                return RedirectToAction("Forbidden", "Account");
+            }
+
+            organizationProgramsTuyenTM.JoinedDate = DateTime.Now;
+
+            if (organizationProgramsTuyenTM.LastUpdated.HasValue &&
+                (organizationProgramsTuyenTM.LastUpdated.Value == DateTime.MinValue || organizationProgramsTuyenTM.LastUpdated.Value < new DateTime(1753, 1, 1)))
+                organizationProgramsTuyenTM.LastUpdated = null;
 
             if (ModelState.IsValid)
             {
-                //_context.Add(organizationProgramsTuyenTM);
-                //await _context.SaveChangesAsync();
                 await _serviceProviders.OrganizationProgramsTuyenTMService.AddAsync(organizationProgramsTuyenTM);
                 return RedirectToAction(nameof(Index));
             }
@@ -103,15 +109,20 @@ namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
             return View(organizationProgramsTuyenTM);
         }
 
-        // GET: OrganizationProgramsTuyenTMs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            // Check if user has role = 3, if so, deny access
+            var userRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+            if (userRole == "3")
+            {
+                return RedirectToAction("Forbidden", "Account");
+            }
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            //var organizationProgramsTuyenTM = await _context.OrganizationProgramsTuyenTMs.FindAsync(id);
             var organizationProgramsTuyenTM = await _serviceProviders.OrganizationProgramsTuyenTMService.GetByIdAsync(id.Value);
             if (organizationProgramsTuyenTM == null)
             {
@@ -124,27 +135,36 @@ namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
             return View(organizationProgramsTuyenTM);
         }
 
-        // POST: OrganizationProgramsTuyenTMs/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, OrganizationProgramsTuyenTM organizationProgramsTuyenTM)
         {
+            // Check if user has role = 3, if so, deny access
+            var userRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+            if (userRole == "3")
+            {
+                return RedirectToAction("Forbidden", "Account");
+            }
+
             if (id != organizationProgramsTuyenTM.OrganizationProgramTuyenTMID)
             {
                 return NotFound();
             }
 
-            // Handle dropdown values - empty string becomes null for nullable boolean
-            // Values will be: "true", "false", or "" (empty for null)
+            if (organizationProgramsTuyenTM.JoinedDate == DateTime.MinValue || organizationProgramsTuyenTM.JoinedDate < new DateTime(1753, 1, 1))
+                organizationProgramsTuyenTM.JoinedDate = DateTime.Now;
+
+            if (!organizationProgramsTuyenTM.LastUpdated.HasValue ||
+                organizationProgramsTuyenTM.LastUpdated.Value == DateTime.MinValue ||
+                organizationProgramsTuyenTM.LastUpdated.Value < new DateTime(1753, 1, 1))
+            {
+                organizationProgramsTuyenTM.LastUpdated = DateTime.Now;
+            }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    //_context.Update(organizationProgramsTuyenTM);
-                    //await _context.SaveChangesAsync();
                     await _serviceProviders.OrganizationProgramsTuyenTMService.UpdateAsync(organizationProgramsTuyenTM);
                 }
                 catch (DbUpdateConcurrencyException)
@@ -167,25 +187,26 @@ namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
             return View(organizationProgramsTuyenTM);
         }
 
-        // GET: OrganizationProgramsTuyenTMs/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            // Check if user has role = 2, if so, deny access
+            var userRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+            if (userRole == "2")
+            {
+                return RedirectToAction("Forbidden", "Account");
+            }
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            //var organizationProgramsTuyenTM = await _context.OrganizationProgramsTuyenTMs
-            //    .Include(o => o.Organization)
-            //    .Include(o => o.ProgramToanNS)
-            //    .FirstOrDefaultAsync(m => m.OrganizationProgramTuyenTMID == id);
             var organizationProgramsTuyenTM = await _serviceProviders.OrganizationProgramsTuyenTMService.GetByIdAsync(id.Value);
             if (organizationProgramsTuyenTM == null)
             {
                 return NotFound();
             }
 
-            // Load navigation properties manually
             var organizations = await _serviceProviders.OrganizationsTuyenTMService.GetAllAsync();
             var programs = await _serviceProviders.CommunityProgramToanNSService.GetAllAsync();
 
@@ -195,26 +216,46 @@ namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
             return View(organizationProgramsTuyenTM);
         }
 
-        // POST: OrganizationProgramsTuyenTMs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            //var organizationProgramsTuyenTM = await _context.OrganizationProgramsTuyenTMs.FindAsync(id);
+            // Check if user has role = 2, if so, deny access
+            var userRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+            if (userRole == "2")
+            {
+                return RedirectToAction("Forbidden", "Account");
+            }
+
             var organizationProgramsTuyenTM = await _serviceProviders.OrganizationProgramsTuyenTMService.GetByIdAsync(id);
             if (organizationProgramsTuyenTM != null)
             {
-                //_context.OrganizationProgramsTuyenTMs.Remove(organizationProgramsTuyenTM);
                 await _serviceProviders.OrganizationProgramsTuyenTMService.DeleteAsync(organizationProgramsTuyenTM.OrganizationProgramTuyenTMID);
             }
-
-            //await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Search(int? pageNumber, int id = 0, string name = "", string type = "")
+        {
+            // Check if user has role = 3, if so, deny access
+            var userRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+            if (userRole == "3")
+            {
+                return RedirectToAction("Forbidden", "Account");
+            }
+
+            var organizationPrograms = await _serviceProviders.OrganizationProgramsTuyenTMService.SearchAsync(id, name, type);
+
+            int pageSize = 10;
+            ViewData["id"] = id;
+            ViewData["name"] = name;
+            ViewData["type"] = type;
+
+            return View("Index", PaginatedList<OrganizationProgramsTuyenTM>.Create(organizationPrograms, pageNumber ?? 1, pageSize));
         }
 
         private bool OrganizationProgramsTuyenTMExists(int id)
         {
-            //return _context.OrganizationProgramsTuyenTMs.Any(e => e.OrganizationProgramTuyenTMID == id);
             return _serviceProviders.OrganizationProgramsTuyenTMService.Exists(id);
         }
     }

@@ -17,5 +17,10 @@ namespace DrugPrevention.Services.TuyenTM
         {
             return await _unitOfWork.System_UserAccountRepository.GetUserAccountAsync(username, password);
         }
+
+        public async Task<System_UserAccount> GetUserAsync(string username, string password)
+        {
+            return await _unitOfWork.System_UserAccountRepository.GetUserAccountAsync(username, password);
+        }
     }
 }

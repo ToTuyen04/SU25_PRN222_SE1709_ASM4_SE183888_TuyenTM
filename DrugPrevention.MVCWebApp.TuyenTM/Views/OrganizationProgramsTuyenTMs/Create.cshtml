@@ -21,9 +21,9 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label asp-for="OrganizationID" class="form-label">
-                                        <i class="fas fa-building me-1"></i>Organization
+                                        <i class="fas fa-building mr-1"></i>Organization
                                     </label>
-                                    <select asp-for="OrganizationID" class="form-select" asp-items="ViewBag.OrganizationID">
+                                    <select asp-for="OrganizationID" class="form-control" asp-items="ViewBag.OrganizationID">
                                         <option value="">-- Select Organization --</option>
                                     </select>
                                     <span asp-validation-for="OrganizationID" class="text-danger"></span>
@@ -32,9 +32,9 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label asp-for="ProgramToanNSID" class="form-label">
-                                        <i class="fas fa-project-diagram me-1"></i>Program
+                                        <i class="fas fa-project-diagram mr-1"></i>Program
                                     </label>
-                                    <select asp-for="ProgramToanNSID" class="form-select" asp-items="ViewBag.ProgramToanNSID">
+                                    <select asp-for="ProgramToanNSID" class="form-control" asp-items="ViewBag.ProgramToanNSID">
                                         <option value="">-- Select Program --</option>
                                     </select>
                                     <span asp-validation-for="ProgramToanNSID" class="text-danger"></span>
@@ -43,19 +43,10 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label asp-for="JoinedDate" class="form-label">
-                                        <i class="fas fa-calendar me-1"></i>Joined Date
-                                    </label>
-                                    <input asp-for="JoinedDate" class="form-control" type="date" />
-                                    <span asp-validation-for="JoinedDate" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="mb-3">
                                     <label asp-for="ProgramRole" class="form-label">
-                                        <i class="fas fa-user-tag me-1"></i>Program Role
+                                        <i class="fas fa-user-tag mr-1"></i>Program Role
                                     </label>
                                     <input asp-for="ProgramRole" class="form-control" placeholder="Enter role in program" />
                                     <span asp-validation-for="ProgramRole" class="text-danger"></span>
@@ -65,7 +56,7 @@
 
                         <div class="mb-3">
                             <label asp-for="ContributionDescription" class="form-label">
-                                <i class="fas fa-comment me-1"></i>Contribution Description
+                                <i class="fas fa-comment mr-1"></i>Contribution Description
                             </label>
                             <textarea asp-for="ContributionDescription" class="form-control" rows="3"
                                       placeholder="Describe the contribution to this program..."></textarea>
@@ -75,9 +66,9 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label asp-for="IsSponsor" class="form-label">
-                                        <i class="fas fa-dollar-sign me-1"></i>Is Sponsor
+                                        <i class="fas fa-dollar-sign mr-1"></i>Is Sponsor
                                     </label>
-                                    <select asp-for="IsSponsor" class="form-select">
+                                    <select asp-for="IsSponsor" class="form-control">
                                         <option value="">-- Select --</option>
                                         <option value="true">Yes</option>
                                         <option value="false">No</option>
@@ -88,9 +79,9 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label asp-for="IsOrganizer" class="form-label">
-                                        <i class="fas fa-users me-1"></i>Is Organizer
+                                        <i class="fas fa-users mr-1"></i>Is Organizer
                                     </label>
-                                    <select asp-for="IsOrganizer" class="form-select">
+                                    <select asp-for="IsOrganizer" class="form-control">
                                         <option value="">-- Select --</option>
                                         <option value="true">Yes</option>
                                         <option value="false">No</option>
@@ -101,10 +92,12 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label asp-for="FundingAmount" class="form-label">
-                                        <i class="fas fa-money-bill me-1"></i>Funding Amount
+                                        <i class="fas fa-money-bill mr-1"></i>Funding Amount
                                     </label>
                                     <div class="input-group">
-                                        <span class="input-group-text">$</span>
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
                                         <input asp-for="FundingAmount" class="form-control" type="number" step="0.01" min="0" placeholder="0.00" />
                                     </div>
                                     <span asp-validation-for="FundingAmount" class="text-danger"></span>
@@ -114,7 +107,7 @@
 
                         <div class="mb-4">
                             <label asp-for="Feedback" class="form-label">
-                                <i class="fas fa-star me-1"></i>Feedback
+                                <i class="fas fa-star mr-1"></i>Feedback
                             </label>
                             <textarea asp-for="Feedback" class="form-control" rows="3"
                                       placeholder="Enter feedback about this program participation..."></textarea>
@@ -123,10 +116,10 @@
 
                         <div class="d-flex justify-content-between">
                             <a asp-action="Index" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left me-1"></i>Back to List
+                                <i class="fas fa-arrow-left mr-1"></i>Back to List
                             </a>
                             <button type="submit" class="btn btn-success">
-                                <i class="fas fa-save me-1"></i>Create Program
+                                <i class="fas fa-save mr-1"></i>Create Program
                             </button>
                         </div>
                     </form>

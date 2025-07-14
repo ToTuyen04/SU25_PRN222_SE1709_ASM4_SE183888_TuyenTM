@@ -153,9 +153,13 @@
                             <a asp-action="Edit" asp-route-id="@Model?.OrganizationProgramTuyenTMID" class="btn btn-warning me-2">
                                 <i class="fas fa-edit me-1"></i>Edit
                             </a>
-                            <a asp-action="Delete" asp-route-id="@Model?.OrganizationProgramTuyenTMID" class="btn btn-outline-danger">
-                                <i class="fas fa-trash me-1"></i>Delete
-                            </a>
+                            @* Only show Delete button if user role is not 2 *@
+                            @* @if (User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value != "2") *@
+                            @* { *@
+                                <a asp-action="Delete" asp-route-id="@Model?.OrganizationProgramTuyenTMID" class="btn btn-outline-danger">
+                                    <i class="fas fa-trash me-1"></i>Delete
+                                </a>
+                            @* } *@
                         </div>
                     </div>
                 </div>
