@@ -31,7 +31,7 @@ namespace DrugPrevention.Repositories.TuyenTM
                 .FirstOrDefaultAsync(p => p.OrganizationProgramTuyenTMID == id);
             return program ?? new OrganizationProgramsTuyenTM();
         }
-        public async Task<List<OrganizationProgramsTuyenTM>> SearchAsync(int id, string name, string type)
+        public async Task<List<OrganizationProgramsTuyenTM>> SearchAsync(int id, string organizationName, string programName)
         {
             var query = _context.OrganizationProgramsTuyenTMs
                 .Include(p => p.ProgramToanNS)
@@ -43,14 +43,14 @@ namespace DrugPrevention.Repositories.TuyenTM
                 query = query.Where(p => p.OrganizationProgramTuyenTMID == id);
             }
 
-            if (!string.IsNullOrWhiteSpace(name))
+            if (!string.IsNullOrWhiteSpace(organizationName))
             {
-                query = query.Where(p => p.ProgramToanNS.ProgramName.Contains(name));
+                query = query.Where(p => p.Organization.OrganizationName.Contains(organizationName));
             }
 
-            if (!string.IsNullOrWhiteSpace(type))
+            if (!string.IsNullOrWhiteSpace(programName))
             {
-                query = query.Where(p => p.Organization.Type.Contains(type));
+                query = query.Where(p => p.ProgramToanNS.ProgramName.Contains(programName));
             }
 
             return await query.ToListAsync();

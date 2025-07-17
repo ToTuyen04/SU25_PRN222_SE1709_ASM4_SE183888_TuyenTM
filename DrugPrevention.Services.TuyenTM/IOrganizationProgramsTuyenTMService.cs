@@ -11,7 +11,7 @@ namespace DrugPrevention.Services.TuyenTM
     {
         Task<List<OrganizationProgramsTuyenTM>> GetAllAsync();
         Task<OrganizationProgramsTuyenTM> GetByIdAsync(int id);
-        Task<List<OrganizationProgramsTuyenTM>> SearchAsync(int id, string name, string type);
+        Task<List<OrganizationProgramsTuyenTM>> SearchAsync(int id, string organizationName, string programName);
         Task<int> AddAsync(OrganizationProgramsTuyenTM program);
         Task<int> UpdateAsync(OrganizationProgramsTuyenTM program);
         Task<bool> DeleteAsync(int id);

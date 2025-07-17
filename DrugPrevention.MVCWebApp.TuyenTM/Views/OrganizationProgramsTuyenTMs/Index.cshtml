@@ -28,17 +28,17 @@
                                    value="@(ViewData["id"] != null && Convert.ToInt32(ViewData["id"]) != 0 ? ViewData["id"] : "")" />
                         </div>
                         <div class="col-md-4">
-                            <label for="name" class="form-label">Program Name</label>
-                            <input type="text" class="form-control" name="name" id="name" placeholder="Enter program name"
-                                   value="@ViewData["name"]" />
+                            <label for="organizationName" class="form-label">Organization Name</label>
+                            <input type="text" class="form-control" name="organizationName" id="organizationName" placeholder="Enter organization name"
+                                   value="@ViewData["organizationName"]" />
                         </div>
                         <div class="col-md-3">
-                            <label for="type" class="form-label">Organization Type</label>
-                            <input type="text" class="form-control" name="type" id="type" placeholder="Enter organization type"
-                                   value="@ViewData["type"]" />
+                            <label for="programName" class="form-label">Program Name</label>
+                            <input type="text" class="form-control" name="programName" id="programName" placeholder="Enter program name"
+                                   value="@ViewData["programName"]" />
                         </div>
                         <div class="col-md-2 d-flex align-items-end">
-                            <button type="submit" class="btn btn-primary me-2">
+                            <button type="submit" class="btn btn-primary mr-2">
                                 <i class="fas fa-search"></i> Search
                             </button>
                             <a asp-action="Index" class="btn btn-outline-secondary">
@@ -52,6 +52,9 @@
                         <table class="table table-hover table-striped mb-0">
                             <thead class="table-dark">
                                 <tr>
+                                    <th class="text-center">
+                                        <i class="fas fa-hashtag mr-1"></i>ID
+                                    </th>
                                     <th class="text-center">
                                         <i class="fas fa-calendar mr-1"></i>Joined Date
                                     </th>
@@ -88,6 +91,11 @@
                             <tbody>
                                 @foreach (var item in Model) {
                                     <tr>
+                                        <td class="text-center">
+                                            <span class="badge bg-secondary">
+                                                @item.OrganizationProgramTuyenTMID
+                                            </span>
+                                        </td>
                                         <td class="text-center">
                                             <span class="badge bg-info">
                                                 @item.JoinedDate.ToString("MMM dd, yyyy")
@@ -194,8 +202,8 @@
                                     <a class="page-link" asp-action="Search"
                                        asp-route-pageNumber="@(Model.PageIndex - 1)"
                                        asp-route-id="@ViewData["id"]"
-                                       asp-route-name="@ViewData["name"]"
-                                       asp-route-type="@ViewData["type"]"
+                                       asp-route-organizationName="@ViewData["organizationName"]"
+                                       asp-route-programName="@ViewData["programName"]"
                                        aria-label="Previous" tabindex="@(Model.HasPreviousPage ? "0" : "-1")">
                                         <i class="fas fa-chevron-left"></i>
                                     </a>
@@ -207,8 +215,8 @@
                                         <a class="page-link" asp-action="Search"
                                            asp-route-pageNumber="@i"
                                            asp-route-id="@ViewData["id"]"
-                                           asp-route-name="@ViewData["name"]"
-                                           asp-route-type="@ViewData["type"]"
+                                           asp-route-organizationName="@ViewData["organizationName"]"
+                                           asp-route-programName="@ViewData["programName"]"
                                            aria-current="@(i == Model.PageIndex ? "page" : null)">@i</a>
                                     </li>
                                 }
@@ -217,8 +225,8 @@
                                     <a class="page-link" asp-action="Search"
                                        asp-route-pageNumber="@(Model.PageIndex + 1)"
                                        asp-route-id="@ViewData["id"]"
-                                       asp-route-name="@ViewData["name"]"
-                                       asp-route-type="@ViewData["type"]"
+                                       asp-route-organizationName="@ViewData["organizationName"]"
+                                       asp-route-programName="@ViewData["programName"]"
                                        aria-label="Next" tabindex="@(Model.HasNextPage ? "0" : "-1")">
                                         <i class="fas fa-chevron-right"></i>
                                     </a>

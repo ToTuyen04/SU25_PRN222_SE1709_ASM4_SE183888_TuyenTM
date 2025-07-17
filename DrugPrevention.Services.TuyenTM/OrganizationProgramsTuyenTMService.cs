@@ -24,9 +24,9 @@ namespace DrugPrevention.Services.TuyenTM
             return await _unitOfWork.OrganizationProgramsTuyenTMRepository.GetByIdAsync(id);
         }
 
-        public async Task<List<OrganizationProgramsTuyenTM>> SearchAsync(int id, string name, string type)
+        public async Task<List<OrganizationProgramsTuyenTM>> SearchAsync(int id, string organizationName, string programName)
         {
-            return await _unitOfWork.OrganizationProgramsTuyenTMRepository.SearchAsync(id, name, type);
+            return await _unitOfWork.OrganizationProgramsTuyenTMRepository.SearchAsync(id, organizationName, programName);
         }
 
         public async Task<int> AddAsync(OrganizationProgramsTuyenTM program)

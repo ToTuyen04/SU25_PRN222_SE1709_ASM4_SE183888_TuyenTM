@@ -235,7 +235,7 @@ namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Search(int? pageNumber, int id = 0, string name = "", string type = "")
+        public async Task<IActionResult> Search(int? pageNumber, int id = 0, string organizationName = "", string programName = "")
         {
             // Check if user has role = 3, if so, deny access
             var userRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
@@ -244,12 +244,12 @@ namespace DrugPrevention.MVCWebApp.TuyenTM.Controllers
                 return RedirectToAction("Forbidden", "Account");
             }
 
-            var organizationPrograms = await _serviceProviders.OrganizationProgramsTuyenTMService.SearchAsync(id, name, type);
+            var organizationPrograms = await _serviceProviders.OrganizationProgramsTuyenTMService.SearchAsync(id, organizationName, programName);
 
             int pageSize = 10;
             ViewData["id"] = id;
-            ViewData["name"] = name;
-            ViewData["type"] = type;
+            ViewData["organizationName"] = organizationName;
+            ViewData["programName"] = programName;
 
             return View("Index", PaginatedList<OrganizationProgramsTuyenTM>.Create(organizationPrograms, pageNumber ?? 1, pageSize));
         }
